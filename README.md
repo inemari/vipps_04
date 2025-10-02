@@ -16,9 +16,8 @@ npm install
    Create `.env.local` in the root directory:
 
 ```env
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
-STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+STRIPE_SECRET_KEY
 ```
 
 3. **Run the application:**
@@ -26,8 +25,6 @@ STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
 ```bash
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) to test payments.
 
 ## � Prerequisites
 
