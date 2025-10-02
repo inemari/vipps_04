@@ -1,45 +1,31 @@
 // app/api/create-intent/route.ts
-import { stripe } from '@/app/lib/stripe';
-import { NextRequest, NextResponse } from 'next/server';
+import { stripe } from "@/app/lib/stripe";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+} from "@/app/lib/api-utils";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    const { paymentMethod = 'vipps' } = await request.json();
     const amount = 19900;
 
     // Create PaymentIntent based on payment method
-    const intentParams: any = {
+    const intentParams = {
       amount,
-      currency: 'nok',
+      currency: "nok",
+      payment_method_types: ["vipps", "card", "paypal"],
     };
 
-    if (paymentMethod === 'vipps') {
-      // Direct API approach for Vipps
-      intentParams.payment_method_types = ['vipps'];
-      intentParams.payment_method_data = {
-        type: 'vipps' as any, // Cast to any due to private preview
-      };
-      // return_url will be added during confirmation step
-    } else if (paymentMethod === 'paypal') {
-      // Payment Element approach for PayPal
-      intentParams.payment_method_types = ['paypal'];
-      intentParams.confirmation_method = 'automatic';
-      // return_url not needed - Payment Element handles this
-    } else {
-      // Payment Element approach for cards (default)
-      intentParams.payment_method_types = ['card'];
-      intentParams.confirmation_method = 'automatic';
-      // return_url not needed - Payment Element handles this
-    }
+    // Create the PaymentIntent with proper headers for Vipps beta
+    const intent = await stripe.paymentIntents.create(intentParams, {
+      apiVersion: "2025-03-31.basil;vipps_preview=v1",
+    } as Parameters<typeof stripe.paymentIntents.create>[1]);
 
-    const intent = await stripe.paymentIntents.create(intentParams);
-
-    return NextResponse.json({ 
+    return createSuccessResponse({
       clientSecret: intent.client_secret,
-      paymentIntentId: intent.id 
+      paymentIntentId: intent.id,
     });
-  } catch (err: any) {
-    console.error('PaymentIntent creation failed:', err);
-    return new NextResponse(`Failed to create payment intent: ${err.message}`, { status: 500 });
+  } catch (err: unknown) {
+    return createErrorResponse("Failed to create payment intent", err);
   }
 }

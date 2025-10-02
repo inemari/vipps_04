@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vipps Payment Integration with Next.js and Stripe
 
-## Getting Started
+A Next.js application demonstrating Vipps payment integration using Stripe's Payment Element with support for Vipps, credit cards, and PayPal.
 
-First, run the development server:
+## � Quick Setup
+
+1. **Clone and install:**
+
+```bash
+git clone <your-repo-url>
+cd vipps_04
+npm install
+```
+
+2. **Create environment file:**
+   Create `.env.local` in the root directory:
+
+```env
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+```
+
+3. **Run the application:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to test payments.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## � Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18.17+
+- Stripe account with Vipps beta access
+- Your Stripe API keys
 
-## Learn More
+## 🔑 Vipps Configuration
 
-To learn more about Next.js, take a look at the following resources:
+This project uses Stripe's Vipps beta feature:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+````typescript
+// Stripe client with Vipps beta API version
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-03-31.basil;vipps_preview=v1",
+});
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## �️ Build & Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build    # Build for production
+npm start        # Start production server
+````
+
+## 📝 Notes
+
+- Requires Stripe Vipps beta access
+- Payment amounts are in Norwegian øre (1 NOK = 100 øre)
+- Built with Next.js 15, React 19, TypeScript, and Tailwind CSS
