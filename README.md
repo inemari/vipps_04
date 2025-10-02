@@ -7,10 +7,13 @@ A Next.js application demonstrating Vipps payment integration using Stripe's Pay
 1. **Clone and install:**
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/inemari/vipps_04.git
 cd vipps_04
-npm install
 ```
+
+npm install
+
+````
 
 2. **Create environment file:**
    Create `.env.local` in the root directory:
@@ -18,7 +21,7 @@ npm install
 ```env
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 STRIPE_SECRET_KEY
-```
+````
 
 3. **Run the application:**
 
